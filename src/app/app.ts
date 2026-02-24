@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DiscoveryPage } from './discovery/discovery-page/discovery-page';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, DiscoveryPage],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
