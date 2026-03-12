@@ -1,5 +1,11 @@
 # MusicConsole
 
+A music discovery app built with Angular, powered by the Spotify Web API.
+
+## Spotify Authentication
+
+This app uses the [Spotify Authorization Code with PKCE flow](https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow), which is the recommended OAuth flow for browser-based applications.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
 
 ## Development server
