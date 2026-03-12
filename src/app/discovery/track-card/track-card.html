@@ -1,0 +1,13 @@
+<article
+  class="overflow-hidden rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] shadow-lg shadow-black/25 transition hover:-translate-y-0.5 hover:shadow-xl">
+  <div class="aspect-square w-full bg-black/10">
+    <img [src]="track().album.images[0]?.url" [alt]="track().name + ' album artwork'"
+      class="h-full w-full object-contain" />
+  </div>
+
+  <div class="p-4 space-y-1">
+    <h3 class="leading-tight font-semibold text-[var(--app-text)]">{{ track().name }}</h3>
+    <p class="text-sm text-[var(--app-text-muted)]">{{ artistNames() }}</p>
+    <p class="text-xs uppercase tracking-wide text-[var(--app-text-muted)]">{{ track().album.name }}</p>
+  </div>
+</article>
