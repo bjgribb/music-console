@@ -1,5 +1,5 @@
 <form [formGroup]="trackSearchForm" (ngSubmit)="onSubmit()"
-    class="flex flex-col gap-3 rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4 md:flex-row md:items-end md:gap-4">
+    class="flex items-end gap-3 rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4 md:gap-4">
     <div class="flex-1 space-y-1">
         <label for="track" class="block text-sm font-medium text-[var(--app-text)]">Search for a track</label>
         <input id="track" type="text" formControlName="track"
@@ -7,9 +7,14 @@
             placeholder="Try a song like Numb or Dreams" />
     </div>
 
-    <button type="submit" [disabled]="!trackSearchForm.valid"
-        class="h-11 rounded-lg bg-[var(--app-primary)] px-4 font-semibold text-slate-950 transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[var(--app-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)]">
-        Submit
+    <button type="submit" [disabled]="!trackSearchForm.valid" aria-label="Search tracks"
+        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--app-primary)] font-semibold text-slate-950 transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[var(--app-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)] md:w-auto md:rounded-lg md:px-4">
+        <svg class="h-5 w-5 md:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path stroke-linecap="round" stroke-linejoin="round" d="m20 20-3.5-3.5"></path>
+        </svg>
+        <span class="hidden md:inline">Search</span>
     </button>
 </form>
 
@@ -26,7 +31,7 @@
 }
 @case ('ready') {
 @if (state.tracks.length) {
-<section class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-6 px-1 py-8">
+<section class="grid grid-cols-[repeat(auto-fill,minmax(220px,280px))] justify-center-safe gap-6 px-1 py-8">
     @for (track of state.tracks; track track.id) {
     <app-track-card [track]="track"></app-track-card>
     }

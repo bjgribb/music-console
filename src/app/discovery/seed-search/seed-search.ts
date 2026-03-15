@@ -22,13 +22,13 @@ export class SeedSearch {
   private spotifyService = inject(SpotifyService);
   private formBuilder = inject(FormBuilder);
 
-  searchState$: Observable<SeedSearchState> = of({ status: 'idle', tracks: [] });
+  protected searchState$: Observable<SeedSearchState> = of({ status: 'idle', tracks: [] });
 
-  trackSearchForm = this.formBuilder.group({
+  readonly trackSearchForm = this.formBuilder.group({
     track: ['', Validators.required],
   });
 
-  onSubmit() {
+  protected onSubmit(): void {
     const trackQuery = this.trackSearchForm.get('track')?.value?.toString().trim();
     if (!trackQuery) {
       return;
