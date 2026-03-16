@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Track } from '@spotify/web-api-ts-sdk';
 import { ReccoBeatsAudioFeatures } from '../../recco-beats/recco-beats.service';
@@ -7,7 +7,6 @@ export type RecommendationSearchRequest = {
   size: number;
   danceability: number;
 };
-
 
 @Component({
   selector: 'app-recommendation-search',
@@ -25,28 +24,16 @@ export class RecommendationSearch {
   readonly hasSearchError = input<boolean>(false);
   readonly searchRequested = output<RecommendationSearchRequest>();
 
-  protected readonly searchStatus = signal<'idle' | 'loading' | 'error'>('idle');
-
   protected readonly sliderForm = this.formBuilder.group({
     danceability: [0],
   });
 
   constructor() {
+    // When a seed track is selected, pre-populate the slider with its danceability value.
     effect(() => {
       const features = this.selectedAudioFeatures();
       if (features) {
         this.sliderForm.patchValue({ danceability: features.danceability });
-        this.searchStatus.set('idle');
-      }
-    });
-
-    effect(() => {
-      this.searchStatus.set(this.isSearching() ? 'loading' : 'idle');
-    });
-
-    effect(() => {
-      if (this.hasSearchError()) {
-        this.searchStatus.set('error');
       }
     });
   }
@@ -56,15 +43,13 @@ export class RecommendationSearch {
   }
 
   protected onSearch(): void {
-    if (!this.selectedAudioFeatures() || this.searchStatus() === 'loading') {
+    if (!this.selectedAudioFeatures() || this.isSearching()) {
       return;
     }
 
-    const values = this.sliderForm.getRawValue();
-    this.searchStatus.set('loading');
     this.searchRequested.emit({
       size: 20,
-      danceability: +values.danceability!,
+      danceability: +this.sliderForm.getRawValue().danceability!,
     });
   }
 }

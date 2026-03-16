@@ -19,13 +19,13 @@
                 class="w-full h-2 appearance-none rounded-full bg-[var(--app-border)] accent-[var(--app-primary)] cursor-pointer" />
         </div>
 
-        @if (searchStatus() === 'error' || hasSearchError()) {
+        @if (hasSearchError()) {
         <p class="text-sm text-red-500">Something went wrong fetching recommendations. Please try again.</p>
         }
 
-        <button type="submit" [disabled]="searchStatus() === 'loading' || isSearching()"
+        <button type="submit" [disabled]="isSearching()"
             class="h-11 w-full rounded-lg bg-[var(--app-primary)] font-semibold text-slate-950 transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[var(--app-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)]">
-            @if (searchStatus() === 'loading' || isSearching()) {
+            @if (isSearching()) {
             <span class="flex items-center justify-center gap-2">
                 <svg class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     aria-hidden="true">
@@ -41,5 +41,7 @@
     </form>
 </section>
 } @else {
-<p class="py-4 text-sm text-[var(--app-text-muted)]">Select a track above to tune your recommendations.</p>
+<p class="rounded-2xl border border-dashed border-[var(--app-border)] p-6 text-sm text-[var(--app-text-muted)]">
+    Select a seed track in Step 1 to unlock tuning controls.
+</p>
 }

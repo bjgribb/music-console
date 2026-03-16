@@ -1,5 +1,24 @@
-<app-seed-search (seedSelected)="onSeedSelected($event)"></app-seed-search>
-<app-recommendation-search [selectedTrack]="selectedTrack()" [selectedAudioFeatures]="selectedAudioFeatures()"
-    [isSearching]="isSearching()" [hasSearchError]="hasSearchError()" (searchRequested)="onSearchRequested($event)">
-</app-recommendation-search>
-<app-recommendation-results [recommendations]="recommendations()"></app-recommendation-results>
+<div class="space-y-10">
+
+    <section>
+        <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Step 1 &mdash;
+            Find a seed track</h2>
+        <app-seed-search (seedSelected)="onSeedSelected($event)"></app-seed-search>
+    </section>
+
+    <section>
+        <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Step 2 &mdash;
+            Tune your search</h2>
+        <app-recommendation-search [selectedTrack]="selectedTrack()" [selectedAudioFeatures]="selectedAudioFeatures()"
+            [isSearching]="isSearching()" [hasSearchError]="hasSearchError()"
+            (searchRequested)="onSearchRequested($event)">
+        </app-recommendation-search>
+    </section>
+
+    <section>
+        <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Step 3 &mdash;
+            Explore recommendations</h2>
+        <app-recommendation-results [recommendations]="recommendations()"></app-recommendation-results>
+    </section>
+
+</div>

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Track } from '@spotify/web-api-ts-sdk';
 import { EMPTY, catchError, finalize } from 'rxjs';
@@ -10,7 +9,7 @@ import { SeedTrackSelection } from '../track-card/track-card';
 
 @Component({
   selector: 'app-discovery-page',
-  imports: [RecommendationSearch, RecommendationResults, CommonModule, SeedSearch],
+  imports: [SeedSearch, RecommendationSearch, RecommendationResults],
   templateUrl: './discovery-page.html',
   styleUrl: './discovery-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,5 +58,4 @@ export class DiscoveryPage {
         this.recommendations.set(items);
       });
   }
-
 }
