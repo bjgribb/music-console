@@ -1,3 +1,5 @@
-<app-seed-search></app-seed-search>
-<app-recommendation-search></app-recommendation-search>
-<app-recommendation-results></app-recommendation-results>
+<app-seed-search (seedSelected)="onSeedSelected($event)"></app-seed-search>
+<app-recommendation-search [selectedTrack]="selectedTrack()" [selectedAudioFeatures]="selectedAudioFeatures()"
+    [isSearching]="isSearching()" [hasSearchError]="hasSearchError()" (searchRequested)="onSearchRequested($event)">
+</app-recommendation-search>
+<app-recommendation-results [recommendations]="recommendations()"></app-recommendation-results>

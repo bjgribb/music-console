@@ -1,1 +1,45 @@
-<p>recommendation-search works!</p>
+@if (selectedAudioFeatures(); as features) {
+<section class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-6 space-y-6">
+    <header class="space-y-1">
+        <h2 class="text-lg font-semibold text-[var(--app-text)]">Tune your recommendations</h2>
+        @if (selectedTrack(); as track) {
+        <p class="text-sm text-[var(--app-text-muted)]">Seeded from <span class="text-[var(--app-text)] font-medium">{{
+                track.name }}</span></p>
+        }
+    </header>
+
+    <form [formGroup]="sliderForm" (ngSubmit)="onSearch()" class="space-y-5">
+        <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline">
+                <label for="danceability" class="text-sm font-medium text-[var(--app-text)]">Danceability</label>
+                <span class="text-sm tabular-nums text-[var(--app-text-muted)]">{{ danceabilityValue.toFixed(2)
+                    }}</span>
+            </div>
+            <input id="danceability" type="range" formControlName="danceability" min="0" max="1" step="0.01"
+                class="w-full h-2 appearance-none rounded-full bg-[var(--app-border)] accent-[var(--app-primary)] cursor-pointer" />
+        </div>
+
+        @if (searchStatus() === 'error' || hasSearchError()) {
+        <p class="text-sm text-red-500">Something went wrong fetching recommendations. Please try again.</p>
+        }
+
+        <button type="submit" [disabled]="searchStatus() === 'loading' || isSearching()"
+            class="h-11 w-full rounded-lg bg-[var(--app-primary)] font-semibold text-slate-950 transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[var(--app-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)]">
+            @if (searchStatus() === 'loading' || isSearching()) {
+            <span class="flex items-center justify-center gap-2">
+                <svg class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    aria-hidden="true">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                Searching...
+            </span>
+            } @else {
+            Get Recommendations
+            }
+        </button>
+    </form>
+</section>
+} @else {
+<p class="py-4 text-sm text-[var(--app-text-muted)]">Select a track above to tune your recommendations.</p>
+}

@@ -1,10 +1,10 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Track } from '@spotify/web-api-ts-sdk';
 import { catchError, map, Observable, of, startWith } from 'rxjs';
 import { SpotifyService } from '../../spotify/spotify-service';
-import { TrackCard } from '../track-card/track-card';
+import { SeedTrackSelection, TrackCard } from '../track-card/track-card';
 
 type SeedSearchState =
   | { status: 'idle'; tracks: Track[] }
@@ -21,6 +21,7 @@ type SeedSearchState =
 export class SeedSearch {
   private spotifyService = inject(SpotifyService);
   private formBuilder = inject(FormBuilder);
+  readonly seedSelected = output<SeedTrackSelection>();
 
   protected searchState$: Observable<SeedSearchState> = of({ status: 'idle', tracks: [] });
 
@@ -39,5 +40,9 @@ export class SeedSearch {
       startWith({ status: 'loading', tracks: [] } as SeedSearchState),
       catchError(() => of({ status: 'error', tracks: [] } as SeedSearchState))
     );
+  }
+
+  protected onSeedSelected(selection: SeedTrackSelection): void {
+    this.seedSelected.emit(selection);
   }
 }

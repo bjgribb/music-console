@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 type ReccoBeatsTrackLookupResponse = {
     content: Array<{
@@ -26,6 +26,22 @@ export type ReccoBeatsAudioFeatures = {
     valence: number;
 };
 
+export type ReccoBeatsRecommendation = {
+    id: string;
+    href: string;
+    isrc: string;
+};
+
+export type RecommendationParams = {
+    seedReccoId: string;
+    size: number;
+    danceability: number;
+};
+
+type ReccoBeatsRecommendationsResponse = {
+    content: ReccoBeatsRecommendation[];
+};
+
 @Injectable({
     providedIn: 'root',
 })
@@ -40,5 +56,16 @@ export class ReccoBeatsService {
 
     getTrackAudioFeaturesByReccoId(reccoId: string): Observable<ReccoBeatsAudioFeatures> {
         return this.http.get<ReccoBeatsAudioFeatures>(`${this.baseUrl}/v1/track/${reccoId}/audio-features`);
+    }
+
+    getRecommendations(params: RecommendationParams): Observable<ReccoBeatsRecommendation[]> {
+        const httpParams = new HttpParams()
+            .set('seeds', params.seedReccoId)
+            .set('size', params.size)
+            .set('danceability', params.danceability);
+
+        return this.http
+            .get<ReccoBeatsRecommendationsResponse>(`${this.baseUrl}/v1/track/recommendation`, { params: httpParams })
+            .pipe(map(response => response.content));
     }
 }

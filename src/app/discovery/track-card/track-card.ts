@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { Track } from '@spotify/web-api-ts-sdk';
 import { EMPTY, catchError, finalize, switchMap, tap } from 'rxjs';
-import { ReccoBeatsService } from '../../recco-beats/recco-beats.service';
+import { ReccoBeatsAudioFeatures, ReccoBeatsService } from '../../recco-beats/recco-beats.service';
+
+export type SeedTrackSelection = {
+  track: Track;
+  reccoId: string;
+  audioFeatures: ReccoBeatsAudioFeatures;
+};
 
 @Component({
   selector: 'app-track-card',
@@ -14,6 +20,7 @@ export class TrackCard {
   private readonly reccoBeatsService = inject(ReccoBeatsService);
 
   readonly track = input.required<Track>();
+  readonly seedSelected = output<SeedTrackSelection>();
   readonly isLoading = signal(false);
 
   protected artistNames(): string {
@@ -25,28 +32,30 @@ export class TrackCard {
       return;
     }
 
-    const spotifyTrackId = this.track().id;
+    const spotifyTrack = this.track();
     this.isLoading.set(true);
 
-    this.reccoBeatsService.getTrackBySpotifyId(spotifyTrackId).pipe(
+    this.reccoBeatsService.getTrackBySpotifyId(spotifyTrack.id).pipe(
       switchMap(trackLookup => {
         const reccoId = trackLookup.content[0]?.id;
 
         if (!reccoId) {
-          console.error('[ReccoBeats] No track mapping found for Spotify track ID:', spotifyTrackId);
+          console.error('[ReccoBeats] No track mapping found for Spotify track ID:', spotifyTrack.id);
           return EMPTY;
         }
 
         return this.reccoBeatsService.getTrackAudioFeaturesByReccoId(reccoId).pipe(
           tap(audioFeatures => {
-            console.log('[ReccoBeats] Spotify track ID:', spotifyTrackId);
-            console.log('[ReccoBeats] ReccoBeats UUID:', reccoId);
-            console.log('[ReccoBeats] Audio features:', audioFeatures);
+            this.seedSelected.emit({
+              track: spotifyTrack,
+              reccoId,
+              audioFeatures,
+            });
           })
         );
       }),
       catchError(error => {
-        console.error('[ReccoBeats] Failed to load audio features for Spotify track ID:', spotifyTrackId, error);
+        console.error('[ReccoBeats] Failed to load audio features for Spotify track ID:', spotifyTrack.id, error);
         return EMPTY;
       }),
       finalize(() => this.isLoading.set(false))

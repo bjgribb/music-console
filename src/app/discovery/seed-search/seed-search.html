@@ -33,7 +33,7 @@
 @if (state.tracks.length) {
 <section class="grid grid-cols-[repeat(auto-fill,minmax(220px,280px))] justify-center-safe gap-6 px-1 py-8">
     @for (track of state.tracks; track track.id) {
-    <app-track-card [track]="track"></app-track-card>
+    <app-track-card [track]="track" (seedSelected)="onSeedSelected($event)"></app-track-card>
     }
 </section>
 } @else {
