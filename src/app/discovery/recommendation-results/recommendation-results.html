@@ -1,16 +1,23 @@
 @if (recommendations().length) {
-<section class="space-y-4 pt-2">
-    <h2 class="text-lg font-semibold text-[var(--app-text)]">Recommendations</h2>
-    <ul class="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
-        @for (track of recommendations(); track track.id) {
-        <li class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4 space-y-2">
-            <p class="text-xs font-mono text-[var(--app-text-muted)] truncate" title="{{ track.isrc }}">{{ track.isrc }}
-            </p>
-            <a [href]="'https://open.spotify.com/search/isrc%3A' + track.isrc" target="_blank" rel="noopener noreferrer"
-                class="block text-sm font-medium text-[var(--app-primary)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)] rounded">View
-                on Spotify &rarr;</a>
+<section class="space-y-3 pt-1">
+    <ul class="space-y-2.5">
+        @for (recommendation of recommendations(); track recommendation.id) {
+        <li>
+            <app-recommendation-card [recommendation]="recommendation" [isLoadingSeed]="isLoadingSeed()"
+                (seedRequested)="onSeedRequested($event)"></app-recommendation-card>
         </li>
         }
     </ul>
 </section>
+} @else if (selectedTrack()) {
+<p
+    class="rounded-xl border border-dashed border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4 text-sm text-[var(--app-text-muted)]">
+    Tune the controls and select <span class="font-semibold text-[var(--app-text)]">Discover 20 Tracks</span> to load
+    recommendations.
+</p>
+} @else {
+<p
+    class="rounded-xl border border-dashed border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4 text-sm text-[var(--app-text-muted)]">
+    Recommendations will appear here after you select a seed track and run discovery.
+</p>
 }

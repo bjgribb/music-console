@@ -1,0 +1,110 @@
+@if (selectedAudioFeatures(); as features) {
+<section class="space-y-4">
+    @if (selectedTrack(); as track) {
+    <article
+        class="flex items-center gap-3 rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-3">
+        <img [src]="track.album.images[0]?.url" [alt]="track.name + ' album artwork'"
+            class="h-14 w-14 rounded-md object-cover" />
+        <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-semibold text-[var(--app-text)]">{{ track.name }}</p>
+            <p class="truncate text-xs text-[var(--app-text-muted)]">{{ track.artists[0]?.name }}</p>
+        </div>
+    </article>
+    }
+
+    <p class="text-xs text-[var(--app-text-muted)]">Start close to the seed, then make small adjustments until the
+        results feel right.</p>
+
+    <form [formGroup]="sliderForm" (ngSubmit)="onSearch()" class="space-y-4">
+        <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline">
+                <label for="valence" class="text-sm font-medium text-[var(--app-text)]">Mood</label>
+                <span class="text-sm tabular-nums text-[var(--app-text-muted)]">{{ valenceValue.toFixed(2) }}</span>
+            </div>
+            <input id="valence" type="range" formControlName="valence" min="0" max="1" step="0.01"
+                class="w-full h-2 appearance-none rounded-full bg-[var(--app-border)] accent-[var(--app-primary)] cursor-pointer" />
+            <p class="text-xs text-[var(--app-text-muted)]">Dark/Sad &harr; Upbeat/Happy</p>
+        </div>
+
+        <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline">
+                <label for="energy" class="text-sm font-medium text-[var(--app-text)]">Energy</label>
+                <span class="text-sm tabular-nums text-[var(--app-text-muted)]">{{ energyValue.toFixed(2) }}</span>
+            </div>
+            <input id="energy" type="range" formControlName="energy" min="0" max="1" step="0.01"
+                class="w-full h-2 appearance-none rounded-full bg-[var(--app-border)] accent-[var(--app-primary)] cursor-pointer" />
+            <p class="text-xs text-[var(--app-text-muted)]">Calm &harr; Intense</p>
+        </div>
+
+        <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline">
+                <label for="danceability" class="text-sm font-medium text-[var(--app-text)]">Danceability</label>
+                <span class="text-sm tabular-nums text-[var(--app-text-muted)]">{{ danceabilityValue.toFixed(2)
+                    }}</span>
+            </div>
+            <input id="danceability" type="range" formControlName="danceability" min="0" max="1" step="0.01"
+                class="w-full h-2 appearance-none rounded-full bg-[var(--app-border)] accent-[var(--app-primary)] cursor-pointer" />
+            <p class="text-xs text-[var(--app-text-muted)]">Chill &harr; Dance Floor</p>
+        </div>
+
+        <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline">
+                <label for="tempo" class="text-sm font-medium text-[var(--app-text)]">Tempo</label>
+                <span class="text-sm tabular-nums text-[var(--app-text-muted)]">{{ tempoValue.toFixed(0) }} BPM</span>
+            </div>
+            <input id="tempo" type="range" formControlName="tempo" min="60" max="200" step="1"
+                class="w-full h-2 appearance-none rounded-full bg-[var(--app-border)] accent-[var(--app-primary)] cursor-pointer" />
+        </div>
+
+        <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline">
+                <label for="acousticness" class="text-sm font-medium text-[var(--app-text)]">Acoustic Feel</label>
+                <span class="text-sm tabular-nums text-[var(--app-text-muted)]">{{ acousticnessValue.toFixed(2)
+                    }}</span>
+            </div>
+            <input id="acousticness" type="range" formControlName="acousticness" min="0" max="1" step="0.01"
+                class="w-full h-2 appearance-none rounded-full bg-[var(--app-border)] accent-[var(--app-primary)] cursor-pointer" />
+            <p class="text-xs text-[var(--app-text-muted)]">Electronic &harr; Acoustic</p>
+        </div>
+
+        <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline">
+                <label for="instrumentalness" class="text-sm font-medium text-[var(--app-text)]">Vocals</label>
+                <span class="text-sm tabular-nums text-[var(--app-text-muted)]">{{ (1 -
+                    instrumentalnessValue).toFixed(2)
+                    }}</span>
+            </div>
+            <input id="instrumentalness" type="range" formControlName="instrumentalness" min="0" max="1" step="0.01"
+                class="w-full h-2 appearance-none rounded-full bg-[var(--app-border)] accent-[var(--app-primary)] cursor-pointer" />
+            <p class="text-xs text-[var(--app-text-muted)]">Instrumental &harr; Vocal Heavy</p>
+        </div>
+
+        @if (hasSearchError()) {
+        <p class="text-sm text-red-500">Could not fetch recommendations. Adjust settings or try again.</p>
+        }
+
+        <button type="submit" [disabled]="isSearching()"
+            class="h-11 w-full rounded-lg bg-[var(--app-primary)] font-semibold text-slate-950 transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[var(--app-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)]">
+            @if (isSearching()) {
+            <span class="flex items-center justify-center gap-2">
+                <svg class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    aria-hidden="true">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                Searching...
+            </span>
+            } @else {
+            Discover 20 Tracks
+            }
+        </button>
+    </form>
+</section>
+} @else {
+<section
+    class="rounded-xl border border-dashed border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-6 text-sm">
+    <h3 class="text-base font-semibold text-[var(--app-text)]">Search for a song to start</h3>
+    <p class="mt-2 text-[var(--app-text-muted)]">Pick a track in the Seed Search panel, then tune mood, energy, and
+        tempo here.</p>
+</section>
+}

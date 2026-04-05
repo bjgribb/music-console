@@ -30,12 +30,19 @@ export type ReccoBeatsRecommendation = {
     id: string;
     href: string;
     isrc: string;
+    trackTitle?: string;
+    artists?: Array<{ name: string }>;
 };
 
 export type RecommendationParams = {
-    seedReccoId: string;
+    spotifyId: string;
     size: number;
-    danceability: number;
+    acousticness?: number;
+    danceability?: number;
+    energy?: number;
+    instrumentalness?: number;
+    tempo?: number;
+    valence?: number;
 };
 
 type ReccoBeatsRecommendationsResponse = {
@@ -59,10 +66,28 @@ export class ReccoBeatsService {
     }
 
     getRecommendations(params: RecommendationParams): Observable<ReccoBeatsRecommendation[]> {
-        const httpParams = new HttpParams()
-            .set('seeds', params.seedReccoId)
-            .set('size', params.size)
-            .set('danceability', params.danceability);
+        let httpParams = new HttpParams()
+            .set('seeds', params.spotifyId)
+            .set('size', params.size);
+
+        if (params.acousticness !== undefined) {
+            httpParams = httpParams.set('acousticness', params.acousticness);
+        }
+        if (params.danceability !== undefined) {
+            httpParams = httpParams.set('danceability', params.danceability);
+        }
+        if (params.energy !== undefined) {
+            httpParams = httpParams.set('energy', params.energy);
+        }
+        if (params.instrumentalness !== undefined) {
+            httpParams = httpParams.set('instrumentalness', params.instrumentalness);
+        }
+        if (params.tempo !== undefined) {
+            httpParams = httpParams.set('tempo', params.tempo);
+        }
+        if (params.valence !== undefined) {
+            httpParams = httpParams.set('valence', params.valence);
+        }
 
         return this.http
             .get<ReccoBeatsRecommendationsResponse>(`${this.baseUrl}/v1/track/recommendation`, { params: httpParams })

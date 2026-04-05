@@ -1,24 +1,40 @@
-<div class="space-y-10">
+<div class="flex h-full flex-col">
+    <header
+        class="studio-header rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-4 md:px-6">
+        <p class="text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Music Console</p>
+        <h1 class="mt-1 text-2xl font-semibold tracking-tight text-[var(--app-text)]">Discover your next favorite track
+        </h1>
+        <p class="mt-2 text-sm text-[var(--app-text-muted)]">Search one track you love, shape the vibe, then keep
+            exploring by using recommendations as your next seed.</p>
+    </header>
 
-    <section>
-        <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Step 1 &mdash;
-            Find a seed track</h2>
-        <app-seed-search (seedSelected)="onSeedSelected($event)"></app-seed-search>
-    </section>
+    <div class="studio-grid mt-4 flex-1 gap-4">
+        <section class="studio-panel rounded-xl border border-[var(--app-border)] bg-[var(--app-surface)] p-4 md:p-5">
+            <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Seed Search
+            </h2>
+            <p class="mb-3 text-sm text-[var(--app-text-muted)]">Pick a starting song to anchor your recommendations.
+            </p>
+            <app-seed-search (seedSelected)="onSeedSelected($event)"></app-seed-search>
+        </section>
 
-    <section>
-        <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Step 2 &mdash;
-            Tune your search</h2>
-        <app-recommendation-search [selectedTrack]="selectedTrack()" [selectedAudioFeatures]="selectedAudioFeatures()"
-            [isSearching]="isSearching()" [hasSearchError]="hasSearchError()"
-            (searchRequested)="onSearchRequested($event)">
-        </app-recommendation-search>
-    </section>
+        <section class="studio-panel rounded-xl border border-[var(--app-border)] bg-[var(--app-surface)] p-4 md:p-5">
+            <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Tune</h2>
+            <p class="mb-3 text-sm text-[var(--app-text-muted)]">Nudge the controls to aim the sound toward your mood.
+            </p>
+            <app-tuning-panel [selectedTrack]="selectedTrack()" [selectedAudioFeatures]="selectedAudioFeatures()"
+                [isSearching]="isSearching()" [hasSearchError]="hasSearchError()"
+                (searchRequested)="onSearchRequested($event)">
+            </app-tuning-panel>
+        </section>
 
-    <section>
-        <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Step 3 &mdash;
-            Explore recommendations</h2>
-        <app-recommendation-results [recommendations]="recommendations()"></app-recommendation-results>
-    </section>
-
+        <section class="studio-panel rounded-xl border border-[var(--app-border)] bg-[var(--app-surface)] p-4 md:p-5">
+            <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">
+                Recommendations</h2>
+            <p class="mb-3 text-sm text-[var(--app-text-muted)]">Open tracks in Spotify or promote any result into a new
+                seed instantly.</p>
+            <app-recommendation-results [recommendations]="recommendations()" [selectedTrack]="selectedTrack()"
+                [isLoadingSeed]="isLoadingSeed()"
+                (seedRequested)="onRecommendationSeedRequested($event)"></app-recommendation-results>
+        </section>
+    </div>
 </div>

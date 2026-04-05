@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Track } from '@spotify/web-api-ts-sdk';
 import { catchError, map, Observable, of, startWith } from 'rxjs';
@@ -17,10 +17,11 @@ type SeedSearchState =
   imports: [ReactiveFormsModule, TrackCard, AsyncPipe],
   templateUrl: './seed-search.html',
   styleUrl: './seed-search.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SeedSearch {
-  private spotifyService = inject(SpotifyService);
-  private formBuilder = inject(FormBuilder);
+  private readonly spotifyService = inject(SpotifyService);
+  private readonly formBuilder = inject(FormBuilder);
   readonly seedSelected = output<SeedTrackSelection>();
 
   protected searchState$: Observable<SeedSearchState> = of({ status: 'idle', tracks: [] });

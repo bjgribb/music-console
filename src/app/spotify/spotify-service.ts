@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { SearchResults, SpotifyApi } from '@spotify/web-api-ts-sdk';
-import { from, Observable } from 'rxjs';
+import { SearchResults, SpotifyApi, Track } from '@spotify/web-api-ts-sdk';
+import { catchError, from, map, Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -15,5 +15,12 @@ export class SpotifyService {
 
   searchTracks(query: string): Observable<SearchResults<['track']>> {
     return from(this.sdk!.search(query, ["track"]));
+  }
+
+  searchByIsrc(isrc: string): Observable<Track | null> {
+    return this.searchTracks(`isrc:${isrc}`).pipe(
+      map(results => results.tracks.items[0] ?? null),
+      catchError(() => of(null)),
+    );
   }
 }

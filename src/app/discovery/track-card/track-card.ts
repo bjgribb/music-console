@@ -20,6 +20,7 @@ export class TrackCard {
   private readonly reccoBeatsService = inject(ReccoBeatsService);
 
   readonly track = input.required<Track>();
+  readonly variant = input<'compact' | 'full'>('full');
   readonly seedSelected = output<SeedTrackSelection>();
   readonly isLoading = signal(false);
 
