@@ -1,7 +1,4 @@
 .studio-header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
     backdrop-filter: blur(4px);
     box-shadow: 0 10px 30px rgb(2 6 23 / 20%);
 }
@@ -19,7 +16,7 @@
 @media (min-width: 1024px) {
     .studio-grid {
         display: grid;
-        grid-template-columns: minmax(260px, 280px) minmax(0, 1fr) minmax(300px, 340px);
+        grid-template-columns: minmax(300px, 340px) minmax(0, 1fr) minmax(300px, 340px);
         align-items: stretch;
         height: calc(100vh - 13rem);
     }

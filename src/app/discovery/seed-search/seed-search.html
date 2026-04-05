@@ -1,14 +1,23 @@
 <form [formGroup]="trackSearchForm" (ngSubmit)="onSubmit()"
-    class="flex items-end gap-2 mbe-2 rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-3 md:gap-3">
-    <div class="min-w-0 flex-1 space-y-1">
-        <label for="track" class="block text-sm font-medium text-[var(--app-text)]">Find your seed track</label>
-        <input id="track" type="text" formControlName="track"
-            class="h-10 w-full rounded-lg border border-[var(--app-border)] bg-[var(--app-surface)] px-3 text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)]"
-            placeholder="Song title or artist" />
-    </div>
+    class="mbe-2 rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-3">
+    <div class="flex flex-col">
+        <label for="track" class="mbe-2 block text-sm font-medium text-[var(--app-text)]">Find your seed track</label>
+        <div class="flex flex-row gap-2">
+            <input id="track" type="text" formControlName="track"
+                class="h-10 w-full rounded-lg border border-[var(--app-border)] bg-[var(--app-surface)] px-3 text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)]"
+                placeholder="Song title..." />
 
-    <button type="submit" [disabled]="!trackSearchForm.valid" aria-label="Search tracks"
-        class="h-10 shrink-0 rounded-lg bg-[var(--app-primary)] px-4 text-sm font-semibold text-slate-950 transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[var(--app-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)]">Search</button>
+            <button type="submit" [disabled]="!trackSearchForm.valid" aria-label="Search tracks"
+                class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--app-primary)] text-slate-950 transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[var(--app-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)]">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true">
+                    <path
+                        d="M11 4a7 7 0 105.292 11.585l3.56 3.56a1 1 0 001.414-1.414l-3.56-3.56A7 7 0 0011 4zm0 2a5 5 0 110 10 5 5 0 010-10z"
+                        fill="currentColor" />
+                </svg>
+            </button>
+        </div>
+    </div>
 </form>
 
 @if (searchState$ | async; as state) {
@@ -30,8 +39,7 @@
     }
 </section>
 } @else {
-<p class="px-1 py-6 text-sm text-[var(--app-text-muted)]">No matches yet. Try a different song title, artist, or
-    spelling.</p>
+<p class="px-1 py-6 text-sm text-[var(--app-text-muted)]">No matches yet. Try a different song title or spelling.</p>
 }
 }
 @case ('error') {
