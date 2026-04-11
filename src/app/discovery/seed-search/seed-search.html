@@ -35,7 +35,8 @@
 @if (state.tracks.length) {
 <section class="flex flex-col gap-2">
     @for (track of state.tracks; track track.id) {
-    <app-track-card [track]="track" (seedSelected)="onSeedSelected($event)"></app-track-card>
+    <app-track-card [track]="track" [isSelected]="selectedTrackId() === track.id" [isDisabled]="isLoadingSeed()"
+        (seedSelected)="onSeedSelected($event)"></app-track-card>
     }
 </section>
 } @else {

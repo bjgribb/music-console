@@ -24,6 +24,7 @@ export class TuningPanel {
 
   readonly selectedTrack = input<Track | null>(null);
   readonly selectedAudioFeatures = input<ReccoBeatsAudioFeatures | null>(null);
+  readonly isLoadingSeed = input<boolean>(false);
   readonly isSearching = input<boolean>(false);
   readonly hasSearchError = input<boolean>(false);
   readonly searchRequested = output<TuningRequest>();

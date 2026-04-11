@@ -10,6 +10,8 @@ import { Track } from '@spotify/web-api-ts-sdk';
 })
 export class TrackCard {
   readonly track = input.required<Track>();
+  readonly isSelected = input(false);
+  readonly isDisabled = input(false);
   readonly seedSelected = output<Track>();
 
   protected artistNames(): string {

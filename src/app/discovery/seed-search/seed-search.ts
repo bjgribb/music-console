@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Track } from '@spotify/web-api-ts-sdk';
 import { catchError, map, Observable, of, startWith } from 'rxjs';
@@ -22,6 +22,8 @@ type SeedSearchState =
 export class SeedSearch {
   private readonly spotifyService = inject(SpotifyService);
   private readonly formBuilder = inject(FormBuilder);
+  readonly selectedTrackId = input<string | null>(null);
+  readonly isLoadingSeed = input(false);
   readonly seedSelected = output<Track>();
 
   protected searchState$: Observable<SeedSearchState> = of({ status: 'idle', tracks: [] });

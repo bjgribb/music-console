@@ -14,7 +14,8 @@
             </h2>
             <p class="mb-3 text-sm text-[var(--app-text-muted)]">Pick a starting song to anchor your recommendations.
             </p>
-            <app-seed-search (seedSelected)="onSeedSelected($event)"></app-seed-search>
+            <app-seed-search [selectedTrackId]="selectedTrack()?.id ?? null" [isLoadingSeed]="isLoadingSeed()"
+                (seedSelected)="onSeedSelected($event)"></app-seed-search>
         </section>
 
         <section class="studio-panel rounded-xl border border-[var(--app-border)] bg-[var(--app-surface)] p-4 md:p-5">
@@ -22,7 +23,7 @@
             <p class="mb-3 text-sm text-[var(--app-text-muted)]">Nudge the controls to aim the sound toward your mood.
             </p>
             <app-tuning-panel [selectedTrack]="selectedTrack()" [selectedAudioFeatures]="selectedAudioFeatures()"
-                [isSearching]="isSearching()" [hasSearchError]="hasSearchError()"
+                [isSearching]="isSearching()" [hasSearchError]="hasSearchError()" [isLoadingSeed]="isLoadingSeed()"
                 (searchRequested)="onSearchRequested($event)">
             </app-tuning-panel>
         </section>
