@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { Track } from '@spotify/web-api-ts-sdk';
-import { ReccoBeatsRecommendation } from '../../recco-beats/recco-beats.service';
+import type { Track } from '@spotify/web-api-ts-sdk';
+import type { ReccoBeatsRecommendation } from '../../recco-beats/recco-beats.service';
 import { RecommendationCard } from '../recommendation-card/recommendation-card';
 
 @Component({

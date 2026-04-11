@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, input, output, signal } from '@angular/core';
-import { Track } from '@spotify/web-api-ts-sdk';
+import type { Track } from '@spotify/web-api-ts-sdk';
 import { catchError, finalize, of } from 'rxjs';
-import { ReccoBeatsRecommendation } from '../../recco-beats/recco-beats.service';
+import type { ReccoBeatsAudioFeatures, ReccoBeatsRecommendation } from '../../recco-beats/recco-beats.service';
+import { ReccoBeatsService } from '../../recco-beats/recco-beats.service';
 import { SpotifyService } from '../../spotify/spotify-service';
 
 @Component({
@@ -13,17 +14,21 @@ import { SpotifyService } from '../../spotify/spotify-service';
 })
 export class RecommendationCard implements OnInit {
     private readonly spotifyService = inject(SpotifyService);
+    private readonly reccoBeatsService = inject(ReccoBeatsService);
 
     readonly recommendation = input.required<ReccoBeatsRecommendation>();
     readonly isLoadingSeed = input<boolean>(false);
     readonly seedRequested = output<Track>();
 
     protected readonly spotifyTrack = signal<Track | null>(null);
+    protected readonly recommendationAudioFeatures = signal<ReccoBeatsAudioFeatures | null>(null);
     protected readonly isLoading = signal(false);
+    protected readonly isLoadingAudioFeatures = signal(false);
     protected readonly hasLookupError = signal(false);
 
     ngOnInit(): void {
         this.loadSpotifyTrack();
+        this.loadRecommendationAudioFeatures();
     }
 
     protected displayTitle(): string {
@@ -50,6 +55,10 @@ export class RecommendationCard implements OnInit {
         }
 
         return `https://open.spotify.com/search/isrc%3A${this.recommendation().isrc}`;
+    }
+
+    protected formatFeatureValue(value: number): string {
+        return value.toFixed(2);
     }
 
     protected onUseAsSeed(): void {
@@ -83,4 +92,21 @@ export class RecommendationCard implements OnInit {
             }
         });
     }
+
+    private loadRecommendationAudioFeatures(): void {
+        const recommendationId = this.recommendation().id;
+        if (!recommendationId) {
+            return;
+        }
+
+        this.isLoadingAudioFeatures.set(true);
+
+        this.reccoBeatsService.getTrackAudioFeaturesByReccoId(recommendationId).pipe(
+            catchError(() => of(null)),
+            finalize(() => this.isLoadingAudioFeatures.set(false)),
+        ).subscribe(features => {
+            this.recommendationAudioFeatures.set(features);
+        });
+    }
+
 }

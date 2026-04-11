@@ -30,9 +30,33 @@
         </button>
     </div>
 
+    @if (recommendationAudioFeatures(); as features) {
+    <section class="mt-3 rounded-lg border border-[var(--app-border)] bg-[var(--app-surface)] p-2.5">
+        <p class="text-xs font-semibold uppercase tracking-wider text-[var(--app-text-muted)]">Track Features</p>
+        <dl class="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-[var(--app-text-muted)]">
+            <div class="flex items-center justify-between gap-2">
+                <dt>Danceability</dt>
+                <dd class="font-medium text-[var(--app-text)]">{{ formatFeatureValue(features.danceability) }}</dd>
+            </div>
+            <div class="flex items-center justify-between gap-2">
+                <dt>Energy</dt>
+                <dd class="font-medium text-[var(--app-text)]">{{ formatFeatureValue(features.energy) }}</dd>
+            </div>
+            <div class="flex items-center justify-between gap-2">
+                <dt>Mood</dt>
+                <dd class="font-medium text-[var(--app-text)]">{{ formatFeatureValue(features.valence) }}</dd>
+            </div>
+        </dl>
+    </section>
+    }
+
     @if (isLoading()) {
     <p class="mt-2 text-xs text-[var(--app-text-muted)]">Loading track details from Spotify...</p>
     } @else if (hasLookupError()) {
     <p class="mt-2 text-xs text-[var(--app-text-muted)]">Limited metadata available for this recommendation.</p>
+    }
+
+    @if (isLoadingAudioFeatures()) {
+    <p class="mt-2 text-xs text-[var(--app-text-muted)]">Loading recommendation feature profile...</p>
     }
 </article>

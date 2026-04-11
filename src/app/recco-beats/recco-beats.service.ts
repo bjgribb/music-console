@@ -37,12 +37,11 @@ export type ReccoBeatsRecommendation = {
 export type RecommendationParams = {
     spotifyId: string;
     size: number;
-    acousticness?: number;
     danceability?: number;
     energy?: number;
-    instrumentalness?: number;
-    tempo?: number;
     valence?: number;
+    featureWeight?: number;
+    popularity?: number;
 };
 
 type ReccoBeatsRecommendationsResponse = {
@@ -70,23 +69,20 @@ export class ReccoBeatsService {
             .set('seeds', params.spotifyId)
             .set('size', params.size);
 
-        if (params.acousticness !== undefined) {
-            httpParams = httpParams.set('acousticness', params.acousticness);
-        }
         if (params.danceability !== undefined) {
             httpParams = httpParams.set('danceability', params.danceability);
         }
         if (params.energy !== undefined) {
             httpParams = httpParams.set('energy', params.energy);
         }
-        if (params.instrumentalness !== undefined) {
-            httpParams = httpParams.set('instrumentalness', params.instrumentalness);
-        }
-        if (params.tempo !== undefined) {
-            httpParams = httpParams.set('tempo', params.tempo);
-        }
         if (params.valence !== undefined) {
             httpParams = httpParams.set('valence', params.valence);
+        }
+        if (params.featureWeight !== undefined) {
+            httpParams = httpParams.set('featureWeight', params.featureWeight);
+        }
+        if (params.popularity !== undefined) {
+            httpParams = httpParams.set('popularity', params.popularity);
         }
 
         return this.http

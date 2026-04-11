@@ -47,9 +47,8 @@ export class DiscoveryPage {
         danceability: request.danceability,
         energy: request.energy,
         valence: request.valence,
-        tempo: request.tempo,
-        acousticness: request.acousticness,
-        instrumentalness: request.instrumentalness,
+        featureWeight: request.featureWeight,
+        popularity: request.popularity,
       })
       .pipe(
         catchError(() => {

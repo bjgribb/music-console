@@ -41,6 +41,7 @@ export class TrackCard {
         const reccoId = trackLookup.content[0]?.id;
 
         if (!reccoId) {
+          // Might be good to have a user-facing notification for this case.
           console.error('[ReccoBeats] No track mapping found for Spotify track ID:', spotifyTrack.id);
           return EMPTY;
         }
@@ -56,6 +57,7 @@ export class TrackCard {
         );
       }),
       catchError(error => {
+        // Might be good to have a user-facing notification for this case as well.
         console.error('[ReccoBeats] Failed to load audio features for Spotify track ID:', spotifyTrack.id, error);
         return EMPTY;
       }),

@@ -48,35 +48,25 @@
         </div>
 
         <div class="space-y-1.5">
-            <div class="flex justify-between items-baseline">
-                <label for="tempo" class="text-sm font-medium text-[var(--app-text)]">Tempo</label>
-                <span class="text-sm tabular-nums text-[var(--app-text-muted)]">{{ tempoValue.toFixed(0) }} BPM</span>
+            <label class="text-sm font-medium text-[var(--app-text)]">Slider Influence</label>
+            <div class="flex gap-1 rounded-lg border border-[var(--app-border)] bg-[var(--app-surface)] p-1">
+                <button type="button" [class]="featureWeightButtonClass(1)" (click)="setFeatureWeight(1)">Loose</button>
+                <button type="button" [class]="featureWeightButtonClass(3)"
+                    (click)="setFeatureWeight(3)">Balanced</button>
+                <button type="button" [class]="featureWeightButtonClass(5)"
+                    (click)="setFeatureWeight(5)">Strict</button>
             </div>
-            <input id="tempo" type="range" formControlName="tempo" min="60" max="200" step="1"
-                class="w-full h-2 appearance-none rounded-full bg-[var(--app-border)] accent-[var(--app-primary)] cursor-pointer" />
+            <p class="text-xs text-[var(--app-text-muted)]">How strongly your sliders steer results.</p>
         </div>
 
         <div class="space-y-1.5">
             <div class="flex justify-between items-baseline">
-                <label for="acousticness" class="text-sm font-medium text-[var(--app-text)]">Acoustic Feel</label>
-                <span class="text-sm tabular-nums text-[var(--app-text-muted)]">{{ acousticnessValue.toFixed(2)
-                    }}</span>
+                <label for="popularity" class="text-sm font-medium text-[var(--app-text)]">Popularity</label>
+                <span class="text-sm tabular-nums text-[var(--app-text-muted)]">{{ popularityValue }}</span>
             </div>
-            <input id="acousticness" type="range" formControlName="acousticness" min="0" max="1" step="0.01"
+            <input id="popularity" type="range" formControlName="popularity" min="0" max="100" step="1"
                 class="w-full h-2 appearance-none rounded-full bg-[var(--app-border)] accent-[var(--app-primary)] cursor-pointer" />
-            <p class="text-xs text-[var(--app-text-muted)]">Electronic &harr; Acoustic</p>
-        </div>
-
-        <div class="space-y-1.5">
-            <div class="flex justify-between items-baseline">
-                <label for="instrumentalness" class="text-sm font-medium text-[var(--app-text)]">Vocals</label>
-                <span class="text-sm tabular-nums text-[var(--app-text-muted)]">{{ (1 -
-                    instrumentalnessValue).toFixed(2)
-                    }}</span>
-            </div>
-            <input id="instrumentalness" type="range" formControlName="instrumentalness" min="0" max="1" step="0.01"
-                class="w-full h-2 appearance-none rounded-full bg-[var(--app-border)] accent-[var(--app-primary)] cursor-pointer" />
-            <p class="text-xs text-[var(--app-text-muted)]">Instrumental &harr; Vocal Heavy</p>
+            <p class="text-xs text-[var(--app-text-muted)]">Underground &harr; Popular</p>
         </div>
 
         @if (hasSearchError()) {
@@ -95,7 +85,7 @@
                 Searching...
             </span>
             } @else {
-            Discover 20 Tracks
+            Discover 5 Tracks
             }
         </button>
     </form>
@@ -105,6 +95,6 @@
     class="rounded-xl border border-dashed border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-6 text-sm">
     <h3 class="text-base font-semibold text-[var(--app-text)]">Search for a song to start</h3>
     <p class="mt-2 text-[var(--app-text-muted)]">Pick a track in the Seed Search panel, then tune mood, energy, and
-        tempo here.</p>
+        danceability here.</p>
 </section>
 }
