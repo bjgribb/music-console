@@ -4,8 +4,8 @@
         <p class="text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Music Console</p>
         <h1 class="mt-1 text-2xl font-semibold tracking-tight text-[var(--app-text)]">Discover your next favorite track
         </h1>
-        <p class="mt-2 text-sm text-[var(--app-text-muted)]">Search one track you love, shape the vibe, then keep
-            exploring by using recommendations as your next seed.</p>
+        <p class="mt-2 text-sm text-[var(--app-text-muted)]">Search one track you love, shape the vibe, and review the
+            recommendations that best match it.</p>
     </header>
 
     <div class="studio-grid mt-4 flex-1 gap-4">
@@ -30,11 +30,11 @@
         <section class="studio-panel rounded-xl border border-[var(--app-border)] bg-[var(--app-surface)] p-4 md:p-5">
             <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">
                 Recommendations</h2>
-            <p class="mb-3 text-sm text-[var(--app-text-muted)]">Open tracks in Spotify or promote any result into a new
-                seed instantly.</p>
-            <app-recommendation-results [recommendations]="recommendations()" [selectedTrack]="selectedTrack()"
-                [isLoadingSeed]="isLoadingSeed()"
-                (seedRequested)="onRecommendationSeedRequested($event)"></app-recommendation-results>
+            <p class="mb-3 text-sm text-[var(--app-text-muted)]">Open tracks in Spotify and compare their feature
+                profile
+                to the seed you selected.</p>
+            <app-recommendation-results [recommendations]="recommendations()"
+                [selectedTrack]="selectedTrack()"></app-recommendation-results>
         </section>
     </div>
 </div>

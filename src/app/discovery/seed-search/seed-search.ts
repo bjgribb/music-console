@@ -4,7 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Track } from '@spotify/web-api-ts-sdk';
 import { catchError, map, Observable, of, startWith } from 'rxjs';
 import { SpotifyService } from '../../spotify/spotify-service';
-import { SeedTrackSelection, TrackCard } from '../track-card/track-card';
+import { TrackCard } from '../track-card/track-card';
 
 type SeedSearchState =
   | { status: 'idle'; tracks: Track[] }
@@ -22,7 +22,7 @@ type SeedSearchState =
 export class SeedSearch {
   private readonly spotifyService = inject(SpotifyService);
   private readonly formBuilder = inject(FormBuilder);
-  readonly seedSelected = output<SeedTrackSelection>();
+  readonly seedSelected = output<Track>();
 
   protected searchState$: Observable<SeedSearchState> = of({ status: 'idle', tracks: [] });
 
@@ -43,7 +43,7 @@ export class SeedSearch {
     );
   }
 
-  protected onSeedSelected(selection: SeedTrackSelection): void {
-    this.seedSelected.emit(selection);
+  protected onSeedSelected(track: Track): void {
+    this.seedSelected.emit(track);
   }
 }

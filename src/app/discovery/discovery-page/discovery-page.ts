@@ -4,7 +4,6 @@ import { EMPTY, catchError, finalize, switchMap, tap } from 'rxjs';
 import { ReccoBeatsAudioFeatures, ReccoBeatsRecommendation, ReccoBeatsService } from '../../recco-beats/recco-beats.service';
 import { RecommendationResults } from '../recommendation-results/recommendation-results';
 import { SeedSearch } from '../seed-search/seed-search';
-import { SeedTrackSelection } from '../track-card/track-card';
 import { TuningPanel, TuningRequest } from '../tuning-panel/tuning-panel';
 
 @Component({
@@ -24,11 +23,8 @@ export class DiscoveryPage {
   protected readonly hasSearchError = signal(false);
   protected readonly isLoadingSeed = signal(false);
 
-  protected onSeedSelected(selection: SeedTrackSelection): void {
-    this.selectedTrack.set(selection.track);
-    this.selectedAudioFeatures.set(selection.audioFeatures);
-    this.recommendations.set([]);
-    this.hasSearchError.set(false);
+  protected onSeedSelected(track: Track): void {
+    this.hydrateSeedTrack(track);
   }
 
   protected onSearchRequested(request: TuningRequest): void {
@@ -62,7 +58,7 @@ export class DiscoveryPage {
       });
   }
 
-  protected onRecommendationSeedRequested(track: Track): void {
+  private hydrateSeedTrack(track: Track): void {
     if (this.isLoadingSeed()) {
       return;
     }
@@ -88,7 +84,7 @@ export class DiscoveryPage {
         );
       }),
       catchError(error => {
-        console.error('[ReccoBeats] Failed to hydrate seed from recommendation:', track.id, error);
+        console.error('[ReccoBeats] Failed to hydrate seed track:', track.id, error);
         return EMPTY;
       }),
       finalize(() => this.isLoadingSeed.set(false))

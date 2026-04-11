@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } from '@angular/core';
 import type { Track } from '@spotify/web-api-ts-sdk';
 import { catchError, finalize, of } from 'rxjs';
 import type { ReccoBeatsAudioFeatures, ReccoBeatsRecommendation } from '../../recco-beats/recco-beats.service';
@@ -17,8 +17,6 @@ export class RecommendationCard implements OnInit {
     private readonly reccoBeatsService = inject(ReccoBeatsService);
 
     readonly recommendation = input.required<ReccoBeatsRecommendation>();
-    readonly isLoadingSeed = input<boolean>(false);
-    readonly seedRequested = output<Track>();
 
     protected readonly spotifyTrack = signal<Track | null>(null);
     protected readonly recommendationAudioFeatures = signal<ReccoBeatsAudioFeatures | null>(null);
@@ -59,15 +57,6 @@ export class RecommendationCard implements OnInit {
 
     protected formatFeatureValue(value: number): string {
         return value.toFixed(2);
-    }
-
-    protected onUseAsSeed(): void {
-        const track = this.spotifyTrack();
-        if (!track || this.isLoadingSeed()) {
-            return;
-        }
-
-        this.seedRequested.emit(track);
     }
 
     private loadSpotifyTrack(): void {

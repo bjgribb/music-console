@@ -20,14 +20,6 @@
         <a [href]="spotifyLink()" target="_blank" rel="noopener noreferrer"
             class="inline-flex h-9 items-center justify-center rounded-md border border-[var(--app-border)] bg-transparent px-3 text-xs font-semibold text-[var(--app-text)] transition hover:bg-[var(--app-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)]">Open
             in Spotify</a>
-        <button type="button" [disabled]="!spotifyTrack() || isLoadingSeed()" (click)="onUseAsSeed()"
-            class="h-9 rounded-md bg-[var(--app-primary)] px-3 text-xs font-semibold text-slate-950 transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[var(--app-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)]">
-            @if (isLoadingSeed()) {
-            Applying seed...
-            } @else {
-            Use as New Seed
-            }
-        </button>
     </div>
 
     @if (recommendationAudioFeatures(); as features) {

@@ -3,8 +3,7 @@
     <ul class="space-y-2.5">
         @for (recommendation of recommendations(); track recommendation.id) {
         <li>
-            <app-recommendation-card [recommendation]="recommendation" [isLoadingSeed]="isLoadingSeed()"
-                (seedRequested)="onSeedRequested($event)"></app-recommendation-card>
+            <app-recommendation-card [recommendation]="recommendation"></app-recommendation-card>
         </li>
         }
     </ul>

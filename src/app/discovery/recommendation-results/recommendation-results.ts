@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import type { Track } from '@spotify/web-api-ts-sdk';
 import type { ReccoBeatsRecommendation } from '../../recco-beats/recco-beats.service';
 import { RecommendationCard } from '../recommendation-card/recommendation-card';
@@ -13,10 +13,4 @@ import { RecommendationCard } from '../recommendation-card/recommendation-card';
 export class RecommendationResults {
   readonly recommendations = input<ReccoBeatsRecommendation[]>([]);
   readonly selectedTrack = input<Track | null>(null);
-  readonly isLoadingSeed = input<boolean>(false);
-  readonly seedRequested = output<Track>();
-
-  protected onSeedRequested(track: Track): void {
-    this.seedRequested.emit(track);
-  }
 }
