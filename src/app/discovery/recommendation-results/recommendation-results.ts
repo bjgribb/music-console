@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import type { Track } from '@spotify/web-api-ts-sdk';
-import type { ReccoBeatsRecommendation } from '../../recco-beats/recco-beats.service';
+import type { DisplayRecommendation } from '../display-recommendation';
 import { RecommendationCard } from '../recommendation-card/recommendation-card';
 
 @Component({
@@ -11,6 +11,7 @@ import { RecommendationCard } from '../recommendation-card/recommendation-card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecommendationResults {
-  readonly recommendations = input<ReccoBeatsRecommendation[]>([]);
+  readonly displayRecommendations = input<DisplayRecommendation[]>([]);
+  readonly rawRecommendationCount = input(0);
   readonly selectedTrack = input<Track | null>(null);
 }

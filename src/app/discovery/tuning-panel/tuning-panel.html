@@ -81,10 +81,6 @@
             <p class="text-xs text-[var(--app-text-muted)]">Underground &harr; Popular</p>
         </div>
 
-        @if (hasSearchError()) {
-        <p class="text-sm text-red-500">Could not fetch recommendations. Adjust settings or try again.</p>
-        }
-
         <button type="submit" [disabled]="isSearching()"
             class="h-11 w-full rounded-lg bg-[var(--app-primary)] font-semibold text-slate-950 transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[var(--app-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--app-ring)]">
             @if (isSearching()) {

@@ -23,7 +23,7 @@
             <p class="mb-3 text-sm text-[var(--app-text-muted)]">Nudge the controls to aim the sound toward your mood.
             </p>
             <app-tuning-panel [selectedTrack]="selectedTrack()" [selectedAudioFeatures]="selectedAudioFeatures()"
-                [isSearching]="isSearching()" [hasSearchError]="hasSearchError()" [isLoadingSeed]="isLoadingSeed()"
+                [isSearching]="isSearching()" [isLoadingSeed]="isLoadingSeed()"
                 (searchRequested)="onSearchRequested($event)">
             </app-tuning-panel>
         </section>
@@ -34,7 +34,8 @@
             <p class="mb-3 text-sm text-[var(--app-text-muted)]">Open tracks in Spotify and compare their feature
                 profile
                 to the seed you selected.</p>
-            <app-recommendation-results [recommendations]="recommendations()"
+            <app-recommendation-results [displayRecommendations]="displayRecommendations()"
+                [rawRecommendationCount]="allRecommendations().length"
                 [selectedTrack]="selectedTrack()"></app-recommendation-results>
         </section>
     </div>

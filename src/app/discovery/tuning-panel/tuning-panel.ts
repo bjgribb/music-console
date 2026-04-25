@@ -26,7 +26,6 @@ export class TuningPanel {
   readonly selectedAudioFeatures = input<ReccoBeatsAudioFeatures | null>(null);
   readonly isLoadingSeed = input<boolean>(false);
   readonly isSearching = input<boolean>(false);
-  readonly hasSearchError = input<boolean>(false);
   readonly searchRequested = output<TuningRequest>();
 
   protected readonly sliderForm = this.formBuilder.group({

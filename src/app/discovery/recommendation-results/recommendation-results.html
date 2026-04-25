@@ -1,13 +1,19 @@
-@if (recommendations().length) {
+@if (displayRecommendations().length) {
 <section class="space-y-3 pt-1">
     <ul class="space-y-2.5">
-        @for (recommendation of recommendations(); track recommendation.id) {
+        @for (displayRecommendation of displayRecommendations(); track displayRecommendation.recommendation.id) {
         <li>
-            <app-recommendation-card [recommendation]="recommendation"></app-recommendation-card>
+            <app-recommendation-card [recommendation]="displayRecommendation.recommendation"
+                [spotifyTrack]="displayRecommendation.spotifyTrack"></app-recommendation-card>
         </li>
         }
     </ul>
 </section>
+} @else if (selectedTrack() && rawRecommendationCount() > 0) {
+<p
+    class="rounded-xl border border-dashed border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4 text-sm text-[var(--app-text-muted)]">
+    Unable to find recommendations to display for this seed right now. Please try a different track.
+</p>
 } @else if (selectedTrack()) {
 <p
     class="rounded-xl border border-dashed border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4 text-sm text-[var(--app-text-muted)]">

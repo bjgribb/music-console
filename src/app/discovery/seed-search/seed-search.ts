@@ -3,14 +3,14 @@ import { ChangeDetectionStrategy, Component, inject, input, output } from '@angu
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Track } from '@spotify/web-api-ts-sdk';
 import { catchError, map, Observable, of, startWith } from 'rxjs';
+import { NotificationService } from '../../notifications/notification.service';
 import { SpotifyService } from '../../spotify/spotify-service';
 import { TrackCard } from '../track-card/track-card';
 
 type SeedSearchState =
   | { status: 'idle'; tracks: Track[] }
   | { status: 'loading'; tracks: Track[] }
-  | { status: 'ready'; tracks: Track[] }
-  | { status: 'error'; tracks: Track[] };
+  | { status: 'ready'; tracks: Track[] };
 
 @Component({
   selector: 'app-seed-search',
@@ -22,6 +22,7 @@ type SeedSearchState =
 export class SeedSearch {
   private readonly spotifyService = inject(SpotifyService);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly notificationService = inject(NotificationService);
   readonly selectedTrackId = input<string | null>(null);
   readonly isLoadingSeed = input(false);
   readonly seedSelected = output<Track>();
@@ -41,7 +42,11 @@ export class SeedSearch {
     this.searchState$ = this.spotifyService.searchTracks(`track:${trackQuery}`).pipe(
       map(result => ({ status: 'ready', tracks: result.tracks.items }) as SeedSearchState),
       startWith({ status: 'loading', tracks: [] } as SeedSearchState),
-      catchError(() => of({ status: 'error', tracks: [] } as SeedSearchState))
+      catchError(error => {
+        console.error('[Spotify] Seed search failed for query:', trackQuery, error);
+        this.notificationService.error('Search is unavailable right now. Please try again shortly.');
+        return of({ status: 'idle', tracks: [] } as SeedSearchState);
+      })
     );
   }
 

@@ -1,7 +1,7 @@
 <article class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-3">
     <div class="flex items-center gap-3">
-        @if (spotifyTrack()?.album?.images?.length) {
-        <img [src]="spotifyTrack()!.album.images[0].url" [alt]="displayTitle() + ' album artwork'"
+        @if (spotifyTrack().album.images.length) {
+        <img [src]="spotifyTrack().album.images[0].url" [alt]="displayTitle() + ' album artwork'"
             class="h-12 w-12 shrink-0 rounded-md object-cover" />
         } @else {
         <div
@@ -40,12 +40,6 @@
             </div>
         </dl>
     </section>
-    }
-
-    @if (isLoading()) {
-    <p class="mt-2 text-xs text-[var(--app-text-muted)]">Loading track details from Spotify...</p>
-    } @else if (hasLookupError()) {
-    <p class="mt-2 text-xs text-[var(--app-text-muted)]">Limited metadata available for this recommendation.</p>
     }
 
     @if (isLoadingAudioFeatures()) {
