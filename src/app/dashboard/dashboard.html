@@ -1,0 +1,39 @@
+<div class="flex flex-col gap-6 py-4">
+    <!-- Time Range Toggle -->
+    <div class="flex justify-center gap-2">
+        @for (option of timeRangeOptions; track option.value) {
+        <button (click)="changeTimeRange(option.value)"
+            [class]="timeRange() === option.value
+          ? 'rounded-full bg-[var(--app-primary)] px-4 py-1.5 text-sm font-medium text-[var(--app-bg)] transition-colors'
+          : 'rounded-full border border-[var(--app-border)] bg-[var(--app-surface)] px-4 py-1.5 text-sm text-[var(--app-text-muted)] transition-colors hover:border-[var(--app-primary)] hover:text-[var(--app-text)]'">
+            {{ option.label }}
+        </button>
+        }
+    </div>
+
+    <!-- Loading State -->
+    @if (loadState() === 'loading') {
+    <div class="flex min-h-64 items-center justify-center">
+        <div
+            class="h-8 w-8 animate-spin rounded-full border-2 border-[var(--app-border)] border-t-[var(--app-primary)]">
+        </div>
+    </div>
+    }
+
+    <!-- Error State -->
+    @if (loadState() === 'error') {
+    <div class="rounded-xl border border-red-800/50 bg-red-900/20 px-6 py-8 text-center">
+        <p class="text-[var(--app-text-muted)]">{{ errorMessage() }}</p>
+        <button (click)="changeTimeRange(timeRange())"
+            class="mt-4 rounded-full border border-[var(--app-border)] px-4 py-1.5 text-sm text-[var(--app-text-muted)] hover:text-[var(--app-text)]">
+            Try again
+        </button>
+    </div>
+    }
+
+    <!-- Loaded State -->
+    @if (loadState() === 'loaded' && profile(); as p) {
+    <app-hero-card [profile]="p" />
+    <app-top-artists-card [artists]="p.topArtists" />
+    }
+</div>

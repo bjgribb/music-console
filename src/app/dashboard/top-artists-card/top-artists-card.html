@@ -1,0 +1,32 @@
+<article class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface)] p-6 md:p-8">
+    <h2 class="mb-5 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Top Artists</h2>
+
+    <ol class="flex flex-col gap-3">
+        @for (artist of artists().slice(0, 5); track artist.id; let rank = $index) {
+        <li class="flex items-center gap-4">
+            <!-- Rank -->
+            <span class="w-5 shrink-0 text-right text-sm font-bold text-[var(--app-text-muted)]">{{ rank + 1 }}</span>
+
+            <!-- Artist image -->
+            @if (artist.imageUrl) {
+            <img [src]="artist.imageUrl" [alt]="artist.name" class="h-10 w-10 shrink-0 rounded-full object-cover"
+                width="40" height="40" />
+            } @else {
+            <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--app-surface-elevated)]"></div>
+            }
+
+            <!-- Name + popularity bar -->
+            <div class="min-w-0 flex-1">
+                <p class="truncate font-medium text-[var(--app-text)]">{{ artist.name }}</p>
+                <div class="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-[var(--app-surface-elevated)]">
+                    <div class="h-full rounded-full bg-[var(--app-primary)] transition-all duration-500"
+                        [style.width.%]="artist.popularity"></div>
+                </div>
+            </div>
+
+            <!-- Popularity value -->
+            <span class="shrink-0 text-xs text-[var(--app-text-muted)]">{{ artist.popularity }}</span>
+        </li>
+        }
+    </ol>
+</article>

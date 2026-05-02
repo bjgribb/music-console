@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { DiscoveryPage } from './discovery/discovery-page/discovery-page';
+import { Dashboard } from './dashboard/dashboard';
 
 export const routes: Routes = [
-    { path: '', component: DiscoveryPage },
+    { path: '', component: Dashboard },
     { path: '**', redirectTo: '' }
 ];

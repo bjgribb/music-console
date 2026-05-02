@@ -1,26 +1,29 @@
 import { Injectable } from '@angular/core';
-import { SearchResults, SpotifyApi, Track } from '@spotify/web-api-ts-sdk';
-import { catchError, from, map, Observable, of } from 'rxjs';
+import { Artist, Page, SpotifyApi, UserProfile } from '@spotify/web-api-ts-sdk';
+import { Observable, from } from 'rxjs';
 import { environment } from '../../environments/environment';
+
+export type TimeRange = 'short_term' | 'medium_term' | 'long_term';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SpotifyService {
-  private sdk: SpotifyApi | null = null;
+  private sdk: SpotifyApi;
 
   constructor() {
-    this.sdk = SpotifyApi.withUserAuthorization(environment.spotifyClientId, environment.spotifyRedirectUri, ["playlist-modify-public"]);
-  }
-
-  searchTracks(query: string): Observable<SearchResults<['track']>> {
-    return from(this.sdk!.search(query, ["track"]));
-  }
-
-  searchByIsrc(isrc: string): Observable<Track | null> {
-    return this.searchTracks(`isrc:${isrc}`).pipe(
-      map(results => results.tracks.items[0] ?? null),
-      catchError(() => of(null)),
+    this.sdk = SpotifyApi.withUserAuthorization(
+      environment.spotifyClientId,
+      environment.spotifyRedirectUri,
+      ['user-top-read', 'user-read-private'],
     );
+  }
+
+  getTopArtists(timeRange: TimeRange): Observable<Page<Artist>> {
+    return from(this.sdk.currentUser.topItems('artists', timeRange, 10));
+  }
+
+  getCurrentUserProfile(): Observable<UserProfile> {
+    return from(this.sdk.currentUser.profile());
   }
 }
