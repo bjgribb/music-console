@@ -14,7 +14,7 @@
 
     <h3 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Top Genres</h3>
     <div class="flex flex-wrap gap-2">
-        @for (genre of topGenres().slice(0, 8); track genre.genre) {
+        @for (genre of topGenres(); track genre.genre) {
         <span
             class="rounded-full border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-3 py-1 text-xs capitalize text-[var(--app-text)]">
             {{ genre.genre }}

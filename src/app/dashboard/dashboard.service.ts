@@ -70,7 +70,6 @@ export class DashboardService {
 
         return [...counts.entries()]
             .sort((a, b) => b[1] - a[1])
-            .slice(0, 8)
             .map(([genre, count]) => ({ genre, count }));
     }
 
