@@ -1,5 +1,4 @@
 <div class="flex flex-col gap-6 py-4">
-    <!-- Time Range Toggle -->
     <div class="flex justify-center gap-2">
         @for (option of timeRangeOptions; track option.value) {
         <button (click)="changeTimeRange(option.value)"
@@ -11,7 +10,6 @@
         }
     </div>
 
-    <!-- Loading State -->
     @if (loadState() === 'loading') {
     <div class="flex min-h-64 items-center justify-center">
         <div
@@ -20,7 +18,6 @@
     </div>
     }
 
-    <!-- Error State -->
     @if (loadState() === 'error') {
     <div class="rounded-xl border border-red-800/50 bg-red-900/20 px-6 py-8 text-center">
         <p class="text-[var(--app-text-muted)]">{{ errorMessage() }}</p>
@@ -31,9 +28,18 @@
     </div>
     }
 
-    <!-- Loaded State -->
-    @if (loadState() === 'loaded' && profile(); as p) {
-    <app-hero-card [profile]="p" />
-    <app-top-artists-card [artists]="p.topArtists" />
+    @if (loadState() === 'loaded' && profile(); as profile) {
+    <app-hero-card [profile]="profile" />
+    <app-summary-card [summary]="profile.summary" [topGenres]="profile.topGenres" />
+
+    <div class="grid grid-flow-row-dense grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="block">
+            <app-top-artists-card [artists]="profile.topArtists" />
+        </div>
+
+        <div class="block">
+            <app-top-tracks-card [tracks]="profile.topTracks" />
+        </div>
+    </div>
     }
 </div>

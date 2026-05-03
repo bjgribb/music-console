@@ -9,13 +9,15 @@ import { TimeRange } from '../spotify/spotify-service';
 import { DashboardService } from './dashboard.service';
 import { HeroCard } from './hero-card/hero-card';
 import { UserProfile } from './models/dashboard.models';
+import { SummaryCard } from './summary-card/summary-card';
 import { TopArtistsCard } from './top-artists-card/top-artists-card';
+import { TopTracksCard } from './top-tracks-card/top-tracks-card';
 
 type LoadState = 'loading' | 'error' | 'loaded';
 
 @Component({
     selector: 'app-music-dashboard',
-    imports: [HeroCard, TopArtistsCard],
+    imports: [HeroCard, SummaryCard, TopArtistsCard, TopTracksCard],
     templateUrl: './dashboard.html',
     styleUrl: './dashboard.css',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,7 +28,7 @@ export class Dashboard implements OnInit {
     protected readonly timeRangeOptions: { label: string; value: TimeRange }[] = [
         { label: '4 Weeks', value: 'short_term' },
         { label: '6 Months', value: 'medium_term' },
-        { label: 'All Time', value: 'long_term' },
+        { label: '1 Year', value: 'long_term' },
     ];
 
     protected readonly timeRange = signal<TimeRange>('medium_term');

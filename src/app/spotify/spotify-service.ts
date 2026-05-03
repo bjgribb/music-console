@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Artist, Page, SpotifyApi, UserProfile } from '@spotify/web-api-ts-sdk';
+import { Artist, Page, SpotifyApi, Track, UserProfile } from '@spotify/web-api-ts-sdk';
 import { Observable, from } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -21,6 +21,10 @@ export class SpotifyService {
 
   getTopArtists(timeRange: TimeRange): Observable<Page<Artist>> {
     return from(this.sdk.currentUser.topItems('artists', timeRange, 10));
+  }
+
+  getTopTracks(timeRange: TimeRange): Observable<Page<Track>> {
+    return from(this.sdk.currentUser.topItems('tracks', timeRange, 10));
   }
 
   getCurrentUserProfile(): Observable<UserProfile> {

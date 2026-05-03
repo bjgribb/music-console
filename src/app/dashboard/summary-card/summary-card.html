@@ -1,0 +1,25 @@
+<article class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface)] p-6 md:p-8">
+    <h2 class="mb-5 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Summary</h2>
+
+    <div class="mb-5 grid grid-cols-2 gap-3">
+        <div class="rounded-xl bg-[var(--app-surface-elevated)] px-4 py-3">
+            <p class="text-xs uppercase tracking-wider text-[var(--app-text-muted)]">Artist Avg. Popularity</p>
+            <p class="mt-1 text-lg font-semibold text-[var(--app-text)]">{{ summary().artistAvgPopularity }}</p>
+        </div>
+        <div class="rounded-xl bg-[var(--app-surface-elevated)] px-4 py-3">
+            <p class="text-xs uppercase tracking-wider text-[var(--app-text-muted)]">Track Avg. Popularity</p>
+            <p class="mt-1 text-lg font-semibold text-[var(--app-text)]">{{ summary().trackAvgPopularity }}</p>
+        </div>
+    </div>
+
+    <h3 class="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Top Genres</h3>
+    <div class="flex flex-wrap gap-2">
+        @for (genre of topGenres().slice(0, 8); track genre.genre) {
+        <span
+            class="rounded-full border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-3 py-1 text-xs capitalize text-[var(--app-text)]">
+            {{ genre.genre }}
+            <span class="ml-1 text-[var(--app-text-muted)]">{{ genre.count }}</span>
+        </span>
+        }
+    </div>
+</article>

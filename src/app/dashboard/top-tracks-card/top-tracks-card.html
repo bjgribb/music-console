@@ -1,0 +1,28 @@
+<article class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface)] p-6 md:p-8">
+    <h2 class="mb-5 text-xs font-semibold uppercase tracking-widest text-[var(--app-text-muted)]">Top Tracks</h2>
+
+    <ol class="flex flex-col gap-3">
+        @for (track of tracks().slice(0, 10); track track.id; let rank = $index) {
+        <li class="flex items-start gap-4">
+            <span class="w-5 shrink-0 text-right text-sm font-bold text-[var(--app-text-muted)]">{{ rank + 1 }}</span>
+
+            @if (track.albumImageUrl) {
+            <img [src]="track.albumImageUrl" [alt]="track.name" class="h-10 w-10 shrink-0 rounded object-cover"
+                width="40" height="40" />
+            } @else {
+            <div class="h-10 w-10 shrink-0 rounded bg-[var(--app-surface-elevated)]"></div>
+            }
+
+            <div class="min-w-0 flex-1">
+                <p class="truncate font-medium text-[var(--app-text)]">{{ track.name }}</p>
+                <p class="truncate text-xs text-[var(--app-text-muted)]">{{ track.artistNames.join(', ') }}</p>
+            </div>
+
+            <div class="shrink-0 text-right">
+                <p class="text-[10px] uppercase tracking-wide text-[var(--app-text-muted)]">Spotify Popularity</p>
+                <p class="text-xs font-semibold text-[var(--app-text)]">{{ track.popularity }}</p>
+            </div>
+        </li>
+        }
+    </ol>
+</article>

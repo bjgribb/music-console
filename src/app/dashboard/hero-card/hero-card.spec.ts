@@ -7,8 +7,11 @@ const mockProfile: UserProfile = {
     imageUrl: null,
     topArtists: [],
     topGenres: [],
-    personalityLabel: '',
-    personalityDescription: '',
+    topTracks: [],
+    summary: {
+        artistAvgPopularity: 0,
+        trackAvgPopularity: 0,
+    },
 };
 
 describe('HeroCard', () => {

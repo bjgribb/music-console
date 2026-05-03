@@ -12,27 +12,20 @@
     </div>
 
     <!-- Stats Row -->
-    <div class="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
+    <div class="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-2">
         @if (profile().topArtists[0]; as topArtist) {
         <div class="rounded-xl bg-[var(--app-surface-elevated)] px-4 py-3">
             <p class="text-xs uppercase tracking-wider text-[var(--app-text-muted)]">Top Artist</p>
             <p class="mt-1 truncate font-semibold text-[var(--app-text)]">{{ topArtist.name }}</p>
         </div>
         }
-        @if (profile().topGenres[0]; as topGenre) {
+        @if (profile().topTracks[0]; as topTrack) {
         <div class="rounded-xl bg-[var(--app-surface-elevated)] px-4 py-3">
-            <p class="text-xs uppercase tracking-wider text-[var(--app-text-muted)]">Top Genre</p>
-            <p class="mt-1 truncate font-semibold capitalize text-[var(--app-text)]">{{ topGenre.genre }}</p>
+            <p class="text-xs uppercase tracking-wider text-[var(--app-text-muted)]">Top Track</p>
+            <p class="mt-1 truncate font-semibold text-[var(--app-text)]">{{ topTrack.name }}</p>
         </div>
         }
-        <div class="rounded-xl bg-[var(--app-surface-elevated)] px-4 py-3">
-            <p class="text-xs uppercase tracking-wider text-[var(--app-text-muted)]">Personality</p>
-            <p class="mt-1 truncate font-semibold text-[var(--app-primary)]">{{ profile().personalityLabel }}</p>
-        </div>
     </div>
-
-    <!-- Personality Description -->
-    <p class="mb-6 text-sm text-[var(--app-text-muted)]">{{ profile().personalityDescription }}</p>
 
     <!-- Actions -->
     <div class="flex flex-wrap gap-3">
