@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Artist, Page, SpotifyApi, Track, UserProfile } from '@spotify/web-api-ts-sdk';
-import { Observable, from } from 'rxjs';
+import { Observable, from, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export type TimeRange = 'short_term' | 'medium_term' | 'long_term';
@@ -17,6 +17,10 @@ export class SpotifyService {
       environment.spotifyRedirectUri,
       ['user-top-read', 'user-read-private'],
     );
+  }
+
+  authenticate(): Observable<boolean> {
+    return from(this.sdk.authenticate()).pipe(map(response => response.authenticated));
   }
 
   getTopArtists(timeRange: TimeRange): Observable<Page<Artist>> {
